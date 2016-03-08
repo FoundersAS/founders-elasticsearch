@@ -1,0 +1,24 @@
+{
+  "name": "founders-elasticsearch",
+  "version": "1.0.0",
+  "description": "Our wrapper for ES",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FoundersAS/founders-elasticsearch.git"
+  },
+  "dependencies": {
+    "elasticsearch": "^10.1.3",
+    "highland": "^2.7.1",
+    "through2": "^2.0.1"
+  },
+  "author": "joshua@founders.as, kasper@founders.as",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/FoundersAS/founders-elasticsearch/issues"
+  },
+  "homepage": "https://github.com/FoundersAS/founders-elasticsearch#readme"
+}
