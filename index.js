@@ -82,7 +82,10 @@ module.exports = function (options) {
 
     return highland(function (push, next) {
       if (buff && !buff.length) return push(null, highland.nil);
-      if (buff && buff.length) return push(null, buff.shift(1));
+      if (buff && buff.length) {
+        push(null, buff.shift(1));
+        return next();
+      }
 
       client.search({
         index: _INDEX,
