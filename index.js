@@ -135,7 +135,6 @@ module.exports = function (options) {
     return that.updateStream(false);
   };
 
-
   that.updateAndPassStream = function () {
     return through.obj({highWaterMark: 0}, function (data, enc, cb) {
       client.update({
