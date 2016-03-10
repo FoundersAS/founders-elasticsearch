@@ -77,6 +77,23 @@ module.exports = function (options) {
     });
   };
 
+  that.mGetStream = function (ids) {
+    return highland(function (push, next) {
+      client.mget({
+        index: _INDEX,
+        type: _TYPE,
+        body: {
+          ids
+        }
+      }, function (err, results) {
+        if (err && err.status !== 404) return push(err);
+
+        push(null, results);
+        push(null, highland.nil);
+      });
+    });
+  };
+
   that.queryStream = function (data) {
     let buff;
 
