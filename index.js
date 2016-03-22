@@ -117,7 +117,9 @@ module.exports = function (options) {
     });
   };
 
-  that.createStream = function () {
+  that.createStream = function (passThrough) {
+    if (passThrough === undefined) passThrough = false;
+
     return through.obj({highWaterMark: 0}, function (data, enc, cb) {
       client.create({
         index: _INDEX,
@@ -126,13 +128,15 @@ module.exports = function (options) {
         body: data.body
       }, function (err, results) {
         if (err) return cb(err);
+        if (passThrough) return cb(null, results);
         cb();
       });
     });
   };
 
-  that.updateStream = function (doc_as_upsert) {
+  that.updateStream = function (doc_as_upsert, passThrough) {
     if (doc_as_upsert === undefined) doc_as_upsert = true;
+    if (passThrough === undefined) passThrough = false;
 
     return through.obj({highWaterMark: 0}, function (data, enc, cb) {
       client.update({
@@ -143,34 +147,10 @@ module.exports = function (options) {
         body: data.body
       }, function (err, results) {
         if (err) return cb(err);
+        if (passThrough) return cb(null, data, results);
         cb();
       });
     });
-  };
-
-  that.updateWithScriptStream = function () {
-    return that.updateStream(false);
-  };
-
-  that.updateAndPassStream = function (doc_as_upsert) {
-    if (doc_as_upsert === undefined) doc_as_upsert = true;
-
-    return through.obj({highWaterMark: 0}, function (data, enc, cb) {
-      client.update({
-        index: _INDEX,
-        type: _TYPE,
-        doc_as_upsert: doc_as_upsert,
-        id: data.id,
-        body: data.body
-      }, function (err, result) {
-        if (err) return cb(err);
-        cb(null, data);
-      });
-    });
-  };
-
-  that.updateWithScriptAndPassStream = function () {
-    return that.updateAndPassStream(false);
   };
 
   that.logResult = function (cb) {
