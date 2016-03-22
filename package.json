@@ -1,6 +1,6 @@
 {
   "name": "founders-elasticsearch",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Our wrapper for ES",
   "main": "index.js",
   "scripts": {

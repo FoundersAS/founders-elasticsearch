@@ -152,12 +152,14 @@ module.exports = function (options) {
     return that.updateStream(false);
   };
 
-  that.updateAndPassStream = function () {
+  that.updateAndPassStream = function (doc_as_upsert) {
+    if (doc_as_upsert === undefined) doc_as_upsert = true;
+
     return through.obj({highWaterMark: 0}, function (data, enc, cb) {
       client.update({
         index: _INDEX,
         type: _TYPE,
-        doc_as_upsert: true,
+        doc_as_upsert: doc_as_upsert,
         id: data.id,
         body: data.body
       }, function (err, result) {
@@ -165,6 +167,10 @@ module.exports = function (options) {
         cb(null, data);
       });
     });
+  };
+
+  that.updateWithScriptAndPassStream = function () {
+    return that.updateAndPassStream(false);
   };
 
   that.logResult = function (cb) {
