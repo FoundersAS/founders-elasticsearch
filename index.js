@@ -51,7 +51,7 @@ module.exports = function (opts) {
 
   that.createStream = function (opts) {
     return through.obj({highWaterMark: 0}, function (data, enc, cb) {
-      that.client.create(opts, function (err, results) {
+      that.client.create(Object.assign(opts, data), function (err, results) {
         if (err) return cb(err);
         if (opts.passThrough) return cb(null, results);
         cb();
@@ -61,7 +61,7 @@ module.exports = function (opts) {
 
   that.updateStream = function (opts) {
     return through.obj({highWaterMark: 0}, function (data, enc, cb) {
-      that.client.update(opts, function (err, results) {
+      that.client.update(Object.assign(opts, data), function (err, results) {
         if (err) return cb(err);
         if (opts.passThrough) return cb(null, data, results);
         cb();
