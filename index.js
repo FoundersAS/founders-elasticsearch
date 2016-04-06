@@ -53,7 +53,7 @@ module.exports = function (opts) {
     return through.obj({highWaterMark: 0}, function (data, enc, cb) {
       that.client.create(Object.assign(opts, data), function (err, results) {
         if (err) return cb(err);
-        if (opts.passThrough) return cb(null, results);
+        if (opts.passThrough) return cb(null, { data, results });
         cb();
       });
     });
@@ -63,7 +63,7 @@ module.exports = function (opts) {
     return through.obj({highWaterMark: 0}, function (data, enc, cb) {
       that.client.update(Object.assign(opts, data), function (err, results) {
         if (err) return cb(err);
-        if (opts.passThrough) return cb(null, data, results);
+        if (opts.passThrough) return cb(null, { data, results });
         cb();
       });
     });
